@@ -29,13 +29,17 @@ server.post('/api/messages', connector.listen());
 
 var intentDialog = new builder.IntentDialog();
 
+bot.dialog('/', function(session){
+    session.endDialog('Hi, ' + session.message.user.name);
+})
+
 //Root dialog
-bot.dialog('/', intentDialog);
+// bot.dialog('/', intentDialog);
 intentDialog.onDefault(builder.DialogAction.send('Sorry, I didn\'t understand that.'));
 intentDialog.onBegin(function(session,args, next){
     if(session.userData.name){
         
-        session.endDialog('Hi ' +  session.userData.name);
+        session.endDialog('Hi ' +  session.message.user.name);
     } else {
         session.endDialog('Hi Guy!');
     }
