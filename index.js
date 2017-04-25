@@ -23,17 +23,20 @@ server.post('/api/messages', connector.listen());
 
 
 //Intent dialog
-var luisUrl = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/109f950e-11c6-462a-b84c-f3454a1fc79e?subscription-key=61fe645b6056470cba59a88b0d6d927d&verbose=true';
-var luisRecognizer = new builder.LuisRecognizer(luisUrl);
-var intentDialog = new builder.IntentDialog({recognizers: [luisRecognizer]});
+// var luisUrl = 'https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/109f950e-11c6-462a-b84c-f3454a1fc79e?subscription-key=61fe645b6056470cba59a88b0d6d927d&verbose=true';
+// var luisRecognizer = new builder.LuisRecognizer(luisUrl);
+// var intentDialog = new builder.IntentDialog({recognizers: [luisRecognizer]});
+
+var intentDialog = new builder.IntentDialog();
 
 //Root dialog
 bot.dialog('/', intentDialog);
 intentDialog.onDefault(builder.DialogAction.send('Sorry, I didn\'t understand that.'));
-intentDialog.matches('Greeting', '/greetingDialog');
-intentDialog.matches('Size', '/sizeDialog')
-intentDialog.matches('Distance', '/distanceDialog');
-intentDialog.matches('Life', 'lifeDialog');
+
+intentDialog.matches(/^Greeting/i,'/greetingDialog');
+intentDialog.matches(/^Size/i, '/sizeDialog');
+intentDialog.matches(/^Distance/i, '/distanceDialog');
+intentDialog.matches(/^Life/i, '/lifeDialog');
 
 bot.dialog('/greetingDialog', 
     function(session)
