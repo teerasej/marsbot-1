@@ -32,7 +32,14 @@ var intentDialog = new builder.IntentDialog();
 //Root dialog
 bot.dialog('/', intentDialog);
 intentDialog.onDefault(builder.DialogAction.send('Sorry, I didn\'t understand that.'));
-
+intentDialog.onBegin(function(session,args, next){
+    if(session.userData.name){
+        
+        session.endDialog('Hi ' +  session.userData.name);
+    } else {
+        session.endDialog('Hi Guy!');
+    }
+})
 intentDialog.matches(/^Greeting/i,'/greetingDialog');
 intentDialog.matches(/^Size/i, '/sizeDialog');
 intentDialog.matches(/^Distance/i, '/distanceDialog');
